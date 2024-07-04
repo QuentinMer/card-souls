@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container my-5">
+		<h1 class="text-center">Connexion</h1>
+
+		{% if error %}
+			<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+
+		<form action="{{ path('app_login') }}" method="post">
+			<label class="mt-5" for="username">Votre email:</label>
+			<input class="form-control my-2" type="text" placeholder="carlos@exemples.com" id="username" name="_username" value="{{ last_username }}">
+
+			<label class="mt-3" for="password">Votre mot de passe:</label>
+			<input class="form-control my-2" type="password" placeholder="mot de passe" id="password" name="_password">
+			
+			<input type="hidden" name="_target_path" value="{{ path('app_account')}}">
+			
+			<button class="btn btn-outline-primary mt-5 d-block mx-auto w-50" type="submit">Me connecter</button>
+			
+			
+		</form>
+		<a href="{{ path('app_register')}}">
+			<button class="btn btn-primary mt-3 d-block mx-auto w-50" type="submit">S'inscrire</button>
+			</a>
+
+			
+
+
+	</div>
+{% endblock %}

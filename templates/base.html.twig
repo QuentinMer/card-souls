@@ -1,17 +1,140 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<!doctype html>
+<html lang="fr" data-bs-theme="auto">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Souls: game</title>
+		<meta name="description" content="La boutique spécialisée dans la fabrication Made In France">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+		<link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+
+		<link
+		href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet">
+		<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+
+		<script src="https://unpkg.com/feather-icons"></script>
+	</head>
+	<style>
+		footer {
+			position: fixed;
+			bottom: 0;
+			padding: 10px 0;
+			text-align: center;
+		}
+		.tooltip-custom {
+			position: relative;
+			display: inline-block;
+		}
+
+		.tooltip-custom .tooltiptext {
+			visibility: hidden;
+			width: 120px;
+			background-color: black;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px;
+			position: absolute;
+			z-index: 1;
+			top: 125%; /* Position en dessous du bouton */
+			left: 50%;
+			margin-left: -60px; /* Centre l'infobulle */
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+
+		.tooltip-custom:hover .tooltiptext {
+			visibility: visible;
+			opacity: 1;
+		}
+		.link {
+			text-decoration: none;
+		}
+	</style>
+	<body>
+
+		<header data-bs-theme="dark">
+			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="{{ path('app_home')}}">Souls game</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarCollapse">
+						<ul class="navbar-nav me-auto mb-2 mb-md-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="{{ path('app_home')}}">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Link</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Link</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Link</a>
+							</li>
+						</ul>
+						<div class="speed-menu">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<a class="link" href="{{ path('app_account')}}">
+									<span class="navbar-text me-3 text-success-emphasis">
+										Bonjour,
+										{{ app.user.firstname }}
+									</span>
+								</a>
+								<a href="{{ path('app_logout') }}" class="btn btn-outline-danger px-2 py-1 tooltip-custom">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill-x" viewbox="0 0 16 16">
+										<path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+										<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708"/>
+									</svg>
+									<span class="tooltiptext">Déconnexion</span>
+								</a>
+							{% else %}
+								<a href="{{ path('app_login') }}" class="btn btn-outline-success px-2 py-1 tooltip-custom">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill-lock" viewbox="0 0 16 16">
+										<path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1"/>
+									</svg>
+									<span class="tooltiptext">Connexion</span>
+								</a>
+							{% endif %}
+
+							<a href="">
+								<i data-feather="shopping-cart"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			<div class="container">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert mt-5 alert-{{ label }}">
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+			{% block body %}{% endblock %}
+
+
+			<!-- FOOTER -->
+			<footer class="container">
+				<p>&copy; 2024 souls game
+					<a href="#">CGV</a>
+					&middot;
+					<a href="#">CGU</a>
+				</p>
+			</footer>
+		</main>
+
+		<script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+		<script src="{{ asset('assets/js/global.js')}}"></script>
+	</body>
 </html>
